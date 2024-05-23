@@ -4,12 +4,12 @@ import bodyParser from 'body-parser'
 
 const app = express()
 
-app.use(bodyParser({}))
+app.use(bodyParser.json())
 app.use(cors())
 
 const postsWithComments = []
 
-app.get('/api/postsWithComments', (req,res) => res.status(200).json({ postsWithComments }))
+app.get('/api/postsWithComments', (_,res) => res.status(200).json({ postsWithComments }))
 
 
 app.get('/api/postsWithComments/:postId', (req,res) => {
@@ -23,46 +23,28 @@ app.post('/api/events', (req,res) => {
 
     if(eventType === 'PostCreated') {
         const { id,title} = payload
-
         const idIsInUse = postsWithComments.find(p => p.id === id)
 
-        console.log('postsWithComments ', postsWithComments)
         if(!idIsInUse) postsWithComments.push({id, title, comments:[]})
-        else return res.status(400).json({message: "Post is already exist"})   
-        console.log('postsWithComments ',postsWithComments)
-        
+        else return res.status(400).json({message: "Post is already exist"})           
     }
-
     else if(eventType === 'CommentCreated') {
         const {id, commentId, content, status} = payload
-
         const postWithCommentIndex = postsWithComments.findIndex(p => p.id === id)
 
-        if(postWithCommentIndex >= 0) {
-        postsWithComments[postWithCommentIndex].comments.push({id:commentId, content, status})
-        }
-        else {
-         return res.status(400).json({message: "Post not exist"})   
-        }
+        if(postWithCommentIndex >= 0) postsWithComments[postWithCommentIndex].comments.push({id:commentId, content, status})
+        else return res.status(400).json({message: "Post not exist"})   
     }
-
     else if(eventType === 'CommentModerated') {
         const {id, commentId, content, status} = payload
-
-        console.log('id 1234 ', id)
-
         const postWithCommentIndex = postsWithComments.findIndex(p => p.id === id)
 
         const commentIndex = postsWithComments[postWithCommentIndex].comments.findIndex(c => c.id === commentId )
-        if(postWithCommentIndex >= 0) {
-        postsWithComments[postWithCommentIndex].comments[commentIndex] = ({id:commentId, content, status})
-        }
-        else {
-            console.log('this is the case ??')
-         return res.status(400).json({message: "Post not exist"})   
-        }
+        
+        if(postWithCommentIndex >= 0) postsWithComments[postWithCommentIndex].comments[commentIndex] = ({id:commentId, content, status})
+        else return res.status(400).json({message: "Post not exist"})      
     }
-
+    
     return res.status(200).json({ message: "Ok" })
 })
 

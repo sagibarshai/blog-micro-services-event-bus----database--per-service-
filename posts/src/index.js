@@ -8,12 +8,11 @@ const app = express()
 
 app.use(cors())
 app.use(bodyParser.json())
-app.options('*', cors()); // Preflight all routes
 
 
 const posts = []
 
-app.get('/api/posts', (req,res) => res.status(200).json({ posts }))
+app.get('/api/posts', (_,res) => res.status(200).json({ posts }))
 
 
 app.get('/api/posts/:id', (req,res) => {
@@ -36,10 +35,9 @@ app.post('/api/posts', async(req,res) => {
 })
 
 
-app.post('/api/events', (req,res) => {
+app.post('/api/events', (_,res) => {
     res.status(200).json({ "message:": "Ok" })
 })
-
 
 
 app.listen(4000 , () => console.log('Posts service up on 4000'))

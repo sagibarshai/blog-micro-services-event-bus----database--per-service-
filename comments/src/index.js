@@ -11,7 +11,7 @@ app.use(cors())
 
 const commentsWithPostId = []
 
-app.get('/api/comments', (req,res) => res.status(200).json({ commentsWithPostId }))
+app.get('/api/comments', (_,res) => res.status(200).json({ commentsWithPostId }))
 
 
 app.get('/api/comments/:postId', (req,res) => {
@@ -22,41 +22,42 @@ app.get('/api/comments/:postId', (req,res) => {
 
 app.post('/api/comments', async(req,res) => {
     const {content, postId} = req.body
-    const id = randomBytes(16).toString('hex')
 
+    const id = randomBytes(16).toString('hex')
 
     const postIndex = commentsWithPostId.findIndex(c => c.postId === postId)
 
     const newComment = {id, content, status:"Pending"}
 
+    let updatedCommentsWithPostId = {}
+
     if(postIndex >= 0) {
-        const updatedCommentWithPostId =   {...commentsWithPostId[postIndex], comments:[...commentsWithPostId[postIndex].comments, newComment]}
-        commentsWithPostId[postIndex] = updatedCommentWithPostId
-        console.log('postId from comments 1 ', postId)
-
-        await axios.post('http://localhost:5005/api/events', {eventType: "CommentCreated", payload:{
-            id: postId, commentId: id, content, status: newComment.status
-        }})
-        
-        return res.status(201).json({ postIdWithComments : updatedCommentWithPostId })
-
+        updatedCommentsWithPostId =   {...commentsWithPostId[postIndex], comments:[...commentsWithPostId[postIndex].comments, newComment]}
+        commentsWithPostId[postIndex] = updatedCommentsWithPostId
     }
     else {
-        const newCommentWithPostId = {postId, comments:[newComment]}
-        commentsWithPostId.push(newCommentWithPostId)
-        console.log('postId from comments 2 ', postId)
+        updatedCommentsWithPostId = {postId, comments:[newComment]}
+        commentsWithPostId.push(updatedCommentsWithPostId)
+    }
 
+    try {
         await axios.post('http://localhost:5005/api/events', {eventType: "CommentCreated", payload:{
             id: postId, commentId: id, content, status: newComment.status
         }})
-
-        return res.status(201).json({ postIdWithComments : newCommentWithPostId })
     }
+    catch(err) {
+        console.error(`Error on Comments comments route `, err)
+    }
+
+    return res.status(201).json({ postIdWithComments : updatedCommentsWithPostId })
+
     })
 
 
-app.post('/api/events', (req,res) => {
+app.post('/api/events', (_,res) => {
     res.status(200).json({ "message:": "Ok" })
 })
 
 app.listen(4001 , () => console.log('Comments service up on 4001'))
+
+
