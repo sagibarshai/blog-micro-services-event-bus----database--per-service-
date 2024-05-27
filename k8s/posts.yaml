@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: posts-depl
+  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: posts
+  template:
+    metadata:
+      labels:
+        component: posts
+    spec:
+      containers:
+        - name: posts-container
+          image: 315426346/posts:latest
+
+
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: posts-service
+spec:
+  type: NodePort
+  selector:
+    component: posts
+  ports:
+    - nodePort: 30001
+      port: 4000
+      targetPort: 4000

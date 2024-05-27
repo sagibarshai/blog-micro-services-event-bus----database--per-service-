@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-bus-depl
+  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: event-bus
+  template:
+    metadata:
+      labels:
+        component: event-bus
+    spec:
+      containers:
+        - name: event-bus-container
+          image: 315426346/event-bus:latest
+
+
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: event-bus-service
+spec:
+  type: NodePort
+  selector:
+    component: event-bus
+  ports:
+    - nodePort: 30004
+      port: 5005
+      targetPort: 5005

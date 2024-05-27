@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: posts-with-comments-depl
+  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: posts-with-comments
+  template:
+    metadata:
+      labels:
+        component: posts-with-comments
+    spec:
+      containers:
+        - name: posts-with-comments-container
+          image: 315426346/posts-with-comments:latest
+
+
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: posts-with-comments-service
+spec:
+  type: NodePort
+  selector:
+    component: posts-with-comments
+  ports:
+    - nodePort: 30003
+      port: 4002
+      targetPort: 4002

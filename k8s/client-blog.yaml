@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-blog-depl
+  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: client-blog
+  template:
+    metadata:
+      labels:
+        component: client-blog
+    spec:
+      containers:
+        - name: client-blog-container
+          image: 315426346/client-blog:latest
+
+
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-blog-service
+spec:
+  type: NodePort
+  selector:
+    component: client-blog
+  ports:
+    - nodePort: 30000
+      port: 3000
+      targetPort: 3000
+
+

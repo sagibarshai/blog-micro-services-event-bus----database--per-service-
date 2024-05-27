@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: comments-depl
+  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: comments
+  template:
+    metadata:
+      labels:
+        component: comments
+    spec:
+      containers:
+        - name: comments-container
+          image: 315426346/comments:latest
+
+
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: comments-service
+spec:
+  type: NodePort
+  selector:
+    component: comments
+  ports:
+    - nodePort: 30002
+      port: 4001
+      targetPort: 4001

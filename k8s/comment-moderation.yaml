@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: comment-moderation-depl
+  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: comment-moderation
+  template:
+    metadata:
+      labels:
+        component: comment-moderation
+    spec:
+      containers:
+        - name: comment-moderation-container
+          image: 315426346/comment-moderation:latest
+
+
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: comment-moderation-service
+spec:
+  type: NodePort
+  selector:
+    component: comment-moderation
+  ports:
+    - nodePort: 30005
+      port: 4003
+      targetPort: 4003
