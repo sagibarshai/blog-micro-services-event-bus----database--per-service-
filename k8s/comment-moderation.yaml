@@ -24,10 +24,9 @@ kind: Service
 metadata:
   name: comment-moderation-service
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     component: comment-moderation
   ports:
-    - nodePort: 30005
-      port: 4003
+    - port: 4003
       targetPort: 4003

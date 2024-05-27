@@ -24,12 +24,9 @@ kind: Service
 metadata:
   name: client-blog-service
 spec:
-  type: NodePort
   selector:
     component: client-blog
   ports:
-    - nodePort: 30000
-      port: 3000
+    - port: 3000
       targetPort: 3000
-
 

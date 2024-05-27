@@ -24,10 +24,9 @@ kind: Service
 metadata:
   name: event-bus-service
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     component: event-bus
   ports:
-    - nodePort: 30004
-      port: 5005
+    - port: 5005
       targetPort: 5005

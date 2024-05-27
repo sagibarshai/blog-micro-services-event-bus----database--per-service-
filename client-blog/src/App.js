@@ -32,7 +32,7 @@ const App = () => {
   const [refetchData, setRefetchData] = useState(false)
 
   const onSubmitPost = async (title) => {
-    await axios.post('http://localhost:30001/api/posts', {
+    await axios.post('http://posts.com/api/posts', {
         title
     })
     setRefetchData(prev => !prev)
@@ -41,7 +41,7 @@ const App = () => {
 
 
 const onSubmitComment = async(postId, comment) => {
- await axios.post('http://localhost:30002/api/comments', {
+ await axios.post('http://posts.com/api/comments', {
       postId, content: comment
   })
   if(true !== false) {
@@ -53,7 +53,7 @@ const onSubmitComment = async(postId, comment) => {
   useEffect(() => {
     const fetchData = async() => {
       
-     const response = await axios.get('http://localhost:30003/api/postsWithComments')
+     const response = await axios.get('http://posts.com/api/postsWithComments')
      const data = response.data.postsWithComments
      setPosts(data)
     }
@@ -78,13 +78,3 @@ const onSubmitComment = async(postId, comment) => {
 export default App;
 
 
-
-// {
-
-//   client: 30000,
-//   comment-moderation: 30005,
-//   comments: 30002,
-//   event-bus: 30004,
-//   posts-with-comments: 30003,
-//   posts: 30001
-// }

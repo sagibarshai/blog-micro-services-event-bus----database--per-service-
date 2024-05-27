@@ -1,0 +1,19 @@
+docker build -t 315426346/client-blog ./client-blog && 
+docker build -t 315426346/comment-moderation ./comment-moderation && 
+docker build -t 315426346/comments ./comments && 
+docker build -t 315426346/event-bus ./event-bus && 
+docker build -t 315426346/posts ./posts && 
+docker build -t 315426346/posts-with-comments ./posts-with-comments && 
+
+
+docker push 315426346/client-blog &&
+docker push 315426346/comment-moderation &&
+docker push 315426346/comments &&
+docker push 315426346/event-bus &&
+docker push 315426346/posts &&
+docker push 315426346/posts-with-comments &&
+
+kubectl delete services --all &&
+kubectl delete deployments --all && 
+kubectl delete pods --all &&
+kubectl apply -f ./k8s

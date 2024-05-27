@@ -24,10 +24,9 @@ kind: Service
 metadata:
   name: comments-service
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     component: comments
   ports:
-    - nodePort: 30002
-      port: 4001
+    - port: 4001
       targetPort: 4001

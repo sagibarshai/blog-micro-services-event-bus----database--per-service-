@@ -10,7 +10,7 @@ app.use(cors())
 
 const postsWithComments = []
 
-app.post('/api/events', async(req, res) => {
+app.post('/api/commentModeration/events', async(req, res) => {
     const { eventType, payload } = req.body
 
     if(eventType ==='PostCreated') {
@@ -37,7 +37,7 @@ app.post('/api/events', async(req, res) => {
         postsWithComments[postIndex].comments.push({id: commentId, status, content})
 
         try {
-            await axios.post('http://localhost:30004/api/events', {
+            await axios.post('http://event-bus-service:5005/api/events', {
                 eventType: 'CommentModerated',
                 payload:{status, commentId, content, id}
             })

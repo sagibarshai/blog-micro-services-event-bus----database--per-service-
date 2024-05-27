@@ -41,7 +41,7 @@ app.post('/api/comments', async(req,res) => {
     }
 
     try {
-        await axios.post('http://localhost:30004/api/events', {eventType: "CommentCreated", payload:{
+        await axios.post('http://event-bus-service:5005/api/events', {eventType: "CommentCreated", payload:{
             id: postId, commentId: id, content, status: newComment.status
         }})
     }
@@ -54,7 +54,7 @@ app.post('/api/comments', async(req,res) => {
     })
 
 
-app.post('/api/events', (_,res) => {
+app.post('/api/comments/events', (_,res) => {
     res.status(200).json({ "message:": "Ok" })
 })
 

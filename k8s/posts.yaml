@@ -24,10 +24,9 @@ kind: Service
 metadata:
   name: posts-service
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     component: posts
   ports:
-    - nodePort: 30001
-      port: 4000
+    - port: 4000
       targetPort: 4000

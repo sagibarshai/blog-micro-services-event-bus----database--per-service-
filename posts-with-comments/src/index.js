@@ -18,7 +18,7 @@ app.get('/api/postsWithComments/:postId', (req,res) => {
 })
 
 
-app.post('/api/events', (req,res) => {
+app.post('/api/postsWithComments/events', (req,res) => {
     const {eventType, payload} = req.body
 
     if(eventType === 'PostCreated') {

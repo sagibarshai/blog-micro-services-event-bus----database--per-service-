@@ -24,10 +24,9 @@ kind: Service
 metadata:
   name: posts-with-comments-service
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     component: posts-with-comments
   ports:
-    - nodePort: 30003
-      port: 4002
+    - port: 4002
       targetPort: 4002

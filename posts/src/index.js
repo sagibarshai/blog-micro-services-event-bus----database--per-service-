@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import axios from 'axios'
-import {randomBytes} from 'crypto'
+import { randomBytes } from 'crypto'
 
 const app = express()
 
@@ -27,15 +27,21 @@ app.post('/api/posts', async(req,res) => {
     const post = {id, title}
     posts.push(post)
 
-    await axios.post('http://localhost:30004/api/events', { eventType: "PostCreated", payload:{
-        id, title
-    }})
+    try {
 
-    return res.status(201).json({ post })
+        await axios.post('http://event-bus-service:5005/api/events', { eventType: "PostCreated", payload:{
+            id, title
+        }})
+        
+    }
+    catch(err) {
+        console.error(`Error on Comments posts route `, err)
+    }
+        return res.status(201).json({ post })
 })
 
 
-app.post('/api/events', (_,res) => {
+app.post('/api/posts/events', (_,res) => {
     res.status(200).json({ "message:": "Ok" })
 })
 
