@@ -27,7 +27,7 @@ app.post('/api/posts', async(req,res) => {
     const post = {id, title}
     posts.push(post)
 
-    await axios.post('http://localhost:5005/api/events', { eventType: "PostCreated", payload:{
+    await axios.post('http://localhost:30004/api/events', { eventType: "PostCreated", payload:{
         id, title
     }})
 

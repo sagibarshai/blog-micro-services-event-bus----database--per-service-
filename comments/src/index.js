@@ -6,7 +6,7 @@ import axios from 'axios'
 
 const app = express()
 
-app.use(bodyParser({}))
+app.use(bodyParser.json())
 app.use(cors())
 
 const commentsWithPostId = []
@@ -41,7 +41,7 @@ app.post('/api/comments', async(req,res) => {
     }
 
     try {
-        await axios.post('http://localhost:5005/api/events', {eventType: "CommentCreated", payload:{
+        await axios.post('http://localhost:30004/api/events', {eventType: "CommentCreated", payload:{
             id: postId, commentId: id, content, status: newComment.status
         }})
     }

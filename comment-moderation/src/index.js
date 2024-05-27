@@ -37,7 +37,7 @@ app.post('/api/events', async(req, res) => {
         postsWithComments[postIndex].comments.push({id: commentId, status, content})
 
         try {
-            await axios.post('http://localhost:5005/api/events', {
+            await axios.post('http://localhost:30004/api/events', {
                 eventType: 'CommentModerated',
                 payload:{status, commentId, content, id}
             })
@@ -49,3 +49,6 @@ app.post('/api/events', async(req, res) => {
 })
 
 app.listen(4003,() => console.log('Comment moderation up on 4003!'))
+
+
+

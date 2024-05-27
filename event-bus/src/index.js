@@ -12,10 +12,10 @@ app.use(bodyParser.json())
 app.post('/api/events', async(req, res) => {
     const { eventType, payload } = req.body
     try {
-        await axios.post('http://localhost:4000/api/events', {eventType, payload})
-        await axios.post('http://localhost:4001/api/events', {eventType, payload})
-        await axios.post('http://localhost:4002/api/events', {eventType, payload})
-        await axios.post('http://localhost:4003/api/events', {eventType, payload})
+        await axios.post('http://localhost:30005/api/events', {eventType, payload})
+        await axios.post('http://localhost:30002/api/events', {eventType, payload})
+        await axios.post('http://localhost:30003/api/events', {eventType, payload})
+        await axios.post('http://localhost:30001/api/events', {eventType, payload})
 
         res.status(200).json({"message`":"Ok"})
     }
