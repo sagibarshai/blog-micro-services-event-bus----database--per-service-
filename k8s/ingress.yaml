@@ -8,6 +8,7 @@ spec:
     - host: posts.com
       http:
         paths:
+
           - path: /
             pathType: Prefix
             backend: 
@@ -15,23 +16,6 @@ spec:
                 name: client-blog-service
                 port: 
                   number: 3000
-
-          - path: /api/commentModeration
-            pathType: Prefix
-            backend: 
-              service:
-                name: comment-moderation-service
-                port:
-                  number: 4003
-
-
-          - path: /api/events
-            pathType: Prefix
-            backend: 
-              service:
-                name: event-bus-service
-                port: 
-                  number: 5005
 
 
           - path: /api/comments
