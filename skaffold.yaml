@@ -1,0 +1,66 @@
+apiVersion: skaffold/v4beta3
+kind: Config
+manifests:
+  rawYaml:
+      - ./k8s/*
+
+build:
+  local:
+    push: false
+  artifacts:
+    - image: 315426346/client-blog
+      context: client-blog
+      docker:
+        dockerfile: Dockerfile
+      sync: 
+        manual:
+          - src: '.src/**/*/*js'
+            dest: .
+
+
+    - image: 315426346/comment-moderation
+      context: comment-moderation
+      docker:
+        dockerfile: Dockerfile
+      sync: 
+        manual:
+          - src: '.src/*'
+            dest: .
+
+            
+    - image: 315426346/comments
+      context: comments
+      docker:
+        dockerfile: Dockerfile
+      sync: 
+        manual:
+          - src: '.src/*'
+            dest: .
+
+    - image: 315426346/event-bus
+      context: event-bus
+      docker:
+        dockerfile: Dockerfile
+      sync: 
+        manual:
+          - src: '.src/*'
+            dest: .
+
+    - image: 315426346/posts
+      context: posts
+      docker:
+        dockerfile: Dockerfile
+      sync: 
+        manual:
+          - src: '.src/*'
+            dest: .
+
+    - image: 315426346/posts-with-comments
+      context: posts-with-comments
+      docker:
+        dockerfile: Dockerfile
+      sync: 
+        manual:
+          - src: '.src/*'
+            dest: .
+
